@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Project;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -35,11 +36,11 @@ class DatabaseSeeder extends Seeder
         $permission = Permission::create(['name' => 'manage-projects']);
         $pmRole->givePermissionTo($permission);
         $pmUser->assignRole('project-manager');
-        $pmUser->assignRole('task-manager');
 
         $tmRole = Role::create(['name' => 'task-manager']);
         $permission = Permission::create(['name' => 'manage-tasks']);
         $tmRole->givePermissionTo($permission);
+        $pmUser->assignRole('task-manager');
         $tmUser->assignRole('task-manager');
     }
 }
