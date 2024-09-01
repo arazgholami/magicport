@@ -1,66 +1,103 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# MagicPort Case Study - Project Management Tool
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## About Laravel
+This is a basic project management tool developed with Laravel. It allows users to create, update, delete, and manage projects and tasks. The tool is designed with simplicity in mind while adhering to best practices and modern design patterns.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Project Management**: Create, read, update, and delete projects.
+- **Task Management**: Add, edit, and delete tasks within a project.
+- **Search and Filtering**: Search projects by name and filter tasks by status.
+- **User Authentication**: Basic user authentication using Laravel's built-in system.
+- **Role and Permission Management**: Implemented with `spatie/laravel-permission` package to manage different user roles and permissions.
+- **Dockerized Environment**: The application is dockerized using Laravel Sail for easy setup and deployment.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Setup Instructions
 
-## Learning Laravel
+### Prerequisites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Docker and Docker Compose installed on your machine.
+- PHP 8.2 or higher.
+- Composer.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/arazgholami/magicport.git
+   cd magicport
+   ```
 
-## Laravel Sponsors
+2. **Install dependencies**:
+   ```bash
+   composer install
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Set up environment variables**:
+    - Copy the `.env` file that was sent to you via Email to project root directory.
+    - Update the `.env` file with your database credentials and other necessary configurations. An example `.env` file was provided via email.
 
-### Premium Partners
+4. **Run the Docker containers**:
+    - Start Laravel Sail:
+      ```bash
+      ./vendor/bin/sail up -d
+      ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+5. **Run migrations and seeders**:
+   ```bash
+   ./vendor/bin/sail artisan migrate --seed
+   ```
 
-## Contributing
+6. **Access the application**:
+    - Open your browser and navigate to `http://localhost`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. **Credentials**:
+    - Project Manager: **Email**: pm@magicport.com, **Password**: 12345678
+    - Task Manager: **Email**: tm@magicport.com, **Password**: 12345678
 
-## Code of Conduct
+## Design Patterns
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Repository Pattern
+The repository pattern is used to abstract the data access layer. Repositories are implemented for both `Project` and `Task` models, allowing for cleaner and more maintainable code. This pattern adheres to the Single Responsibility Principle (SRP) by separating business logic from data access logic.
 
-## Security Vulnerabilities
+### Service Layer Pattern
+The service layer encapsulates business logic for projects and tasks, keeping controllers lightweight and focused on handling HTTP requests. This design follows the Open/Closed Principle (OCP), making it easy to extend the application without modifying existing code.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Validation and Error Handling
+While validations are currently handled directly in the controllers, this could have been abstracted into `FormRequest` classes for better separation of concerns. Custom exceptions for error handling were also considered but were not implemented to keep things simple. These could be added later for more robust error management.
 
-## License
+## Real-Time Updates
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Due to time constraints, real-time updates were not implemented. However, this feature can be easily added using Laravel Echo and Pusher for WebSocket-based real-time communication.
+
+## Testing
+
+PEST is used for testing the application, providing a more expressive and simpler syntax compared to PHPUnit.
+
+### Running Tests
+
+To run the tests, use the following command:
+```bash
+./vendor/bin/sail artisan test
+```
+
+Tests cover the following areas:
+- **Unit Tests**: Ensure the correctness of individual models and their methods.
+- **Feature Tests**: Validate the overall functionality of the controllers, ensuring that routes, views, and data manipulation work as expected.
+
+### PEST Setup
+PEST is installed and configured in the project. Factories are used for generating test data, and the tests cover both unit and feature aspects of the application.
+
+## Future Enhancements
+
+- **Form Requests and Custom Exceptions**: As mentioned, validations could be moved to `FormRequest` classes, and custom exceptions could be added for better error handling. These enhancements would make the application more scalable and maintainable.
+- **Real-Time Updates**: Implementing real-time updates using Laravel Echo and Pusher would enhance the user experience by providing instant feedback when tasks are added, updated, or deleted.
+
+## "Tamam-Shud"
+For any questions or further assistance, please feel free to contact me.
+
+---
+
+**Note**: This project was developed as part of a case study, with some features being intentionally simplified to meet the project timeline.
+This `README.md` file provides a comprehensive overview of the project, setup instructions, and explanations of design decisions, including the reasons for keeping certain aspects simple. Let me know if you need any further adjustments!
